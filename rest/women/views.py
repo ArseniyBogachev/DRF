@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import ListView
 from rest_framework import generics, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import *
@@ -8,6 +9,9 @@ from rest_framework.views import APIView
 from .models import *
 from .permissions import IsAdminOrReadOnly, IsUserOrReadOnly
 from .serializers import WomenSerializer
+class Home(ListView):
+    template_name = 'index.html'
+    model = Women
 
 class WomenAPIListPost(generics.ListCreateAPIView):
     queryset = Women.objects.all()
