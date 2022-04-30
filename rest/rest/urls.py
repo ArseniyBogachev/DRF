@@ -24,7 +24,7 @@ from women.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Home.as_view()),
-    path('api/v1/womenlist/', WomenAPIListPost.as_view()),
+    path('api/v1/womenlist', WomenAPIListPost.as_view()),
     path('api/v1/womenupdate/<int:pk>/', WomenAPIUpdate.as_view()),
     path('api/v1/womendelete/<int:pk>/', WomenAPIDelete.as_view())
 ]
