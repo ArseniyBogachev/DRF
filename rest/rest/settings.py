@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'women.apps.WomenConfig',
     'rest_framework',
     'corsheaders',
+    'djoser',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -132,5 +134,13 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 4
+    'PAGE_SIZE': 4,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'EXCEPTION_HANDLER': 'women.views.custom_exception_handler',
 }
+
+AUTH_USER_MODEL = "women.WomenUser"
