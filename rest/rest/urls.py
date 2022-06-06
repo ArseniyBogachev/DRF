@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework import routers
 from rest_framework import urls
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from women.views import *
 
@@ -27,8 +28,16 @@ urlpatterns = [
     # path('api/v1/drf-auth/', include('rest_framework.urls')),
     path('api/v1/womenlist', WomenAPIListPost.as_view()),
     path('api/v1/womenupdate/<int:pk>/', WomenAPIUpdate.as_view()),
+    path('api/v1/womenrelationupdate/<int:women>/', WomenRelationAPIUpdate.as_view()),
     path('api/v1/womendelete/<int:pk>/', WomenAPIDelete.as_view()),
-    path('api/v1/auth/', include('djoser.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken')),
-    path('api/v1/register/', CustomRegistrationView.as_view({'post': 'create'}))
+    re_path(r'^auth/', include('djoser.urls')),
+    # re_path(r'^auth/', include('djoser.urls.authtoken')),
+    path('api/v1/register', CustomRegistrationView.as_view({'post': 'create'})),
+    path(r'auth/', include('djoser.urls.jwt')),
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/v1/blacklist/', BlackListAddJWT.as_view(), name='black_list'),
+    # path('api/v1/refresh_token/', RefreshJWTView.as_view(), name='black_list'),
+    re_path(r'activate/(?P<uid>[\w-]+)/(?P<token>[\w-]+)/$', ActivateJWT.as_view(), name='activation'),
 ]
